@@ -3,10 +3,12 @@ FROM debian:buster-slim AS build
 RUN apt-get update && apt-get -y --no-install-recommends install \
       build-essential \
  && rm -rf /var/lib/apt/lists/*
-
-ADD https://www.iro.umontreal.ca/~gambit/download/gambit/v4.9/source/gambit-v4_9_3.tgz gambit-v4_9_3.tgz
-RUN tar -xvf gambit-v4_9_3.tgz
-WORKDIR gambit-v4_9_3
+WORKDIR /build
+COPY checksum checksum
+ADD https://www.iro.umontreal.ca/~gambit/download/gambit/v4.9/source/gambit-v4_9_3.tgz gambit.tgz
+RUN sha256sum gambit.tgz && sha256sum -c checksum
+RUN mkdir gambit && tar -C gambit --strip-components 1 -xf gambit.tgz
+WORKDIR /build/gambit
 RUN ./configure --prefix=/usr/local --enable-single-host
 RUN make
 RUN make install
