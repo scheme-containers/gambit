@@ -1,7 +1,7 @@
 # -*- mode: dockerfile; coding: utf-8 -*-
 FROM schemers/gambit:latest AS build
 RUN apt-get update && apt-get -y --no-install-recommends install \
-      build-essential \
+      build-essential git \
  && rm -rf /var/lib/apt/lists/*
 WORKDIR /build
 RUN git clone https://github.com/gambit/gambit.git --depth 1
