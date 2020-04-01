@@ -7,6 +7,7 @@ WORKDIR /build
 RUN git clone https://github.com/gambit/gambit.git --depth 1
 WORKDIR /build/gambit
 RUN ./configure --prefix=/usr/local --enable-single-host
+RUN rm -rf boot gsc-boot
 RUN make
 RUN make check
 RUN make modules
