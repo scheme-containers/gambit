@@ -7,14 +7,10 @@ WORKDIR /build
 RUN git clone https://github.com/gambit/gambit.git --depth 1
 WORKDIR /build/gambit
 RUN ./configure --prefix=/usr/local --enable-single-host
-RUN make || true
-WORKDIR /build/gambit/gsc
-RUN ../gsc-boot -:=.. -f -prelude "(##namespace(\"c#\"))(##include\"../lib/header.scm\")(##define|##parameterize|##parameterize1)" -c _host.scm
-RUN ../gsc-boot -:=.. -f -prelude "(##namespace(\"c#\"))(##include\"../lib/header.scm\")(##define|##parameterize|##parameterize1)" -c _gsclib.scm
 WORKDIR /build/gambit
-RUN make || true
-RUN make bootstrap
-RUN make bootclean
+RUN rm -f gsc-boot && ln -s /usr/local/bin/gsc gsc-boot
+#RUN make bootstrap
+#RUN make bootclean
 RUN make
 RUN make check
 RUN make modules
