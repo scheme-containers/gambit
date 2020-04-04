@@ -1,13 +1,12 @@
 # -*- mode: dockerfile; coding: utf-8 -*-
 FROM schemers/gambit:latest AS build
 RUN apt-get update && apt-get -y --no-install-recommends install \
-      build-essential ca-certificates git \
+      build-essential autoconf automake m4 ca-certificates git \
  && rm -rf /var/lib/apt/lists/*
 WORKDIR /build
 RUN git clone https://github.com/gambit/gambit.git --depth 1
 WORKDIR /build/gambit
 RUN ./configure --prefix=/usr/local --enable-single-host
-WORKDIR /build/gambit
 RUN rm -f gsc-boot && ln -s /usr/local/bin/gsc gsc-boot
 #RUN make bootstrap
 #RUN make bootclean
