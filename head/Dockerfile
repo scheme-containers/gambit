@@ -1,18 +1,17 @@
 # -*- mode: dockerfile; coding: utf-8 -*-
-FROM schemers/gambit:latest AS build
+FROM debian:buster-slim AS build
 RUN apt-get update && apt-get -y --no-install-recommends install \
-      build-essential autoconf automake m4 ca-certificates git \
+      build-essential ca-certificates git \
  && rm -rf /var/lib/apt/lists/*
 WORKDIR /build
-RUN git clone https://github.com/gambit/gambit.git --depth 1
+RUN git clone https://github.com/gambit/gambit.git
 WORKDIR /build/gambit
-RUN ./configure --prefix=/usr/local --enable-single-host
-RUN rm -f gsc-boot && ln -s /usr/local/bin/gsc gsc-boot
-#RUN make bootstrap
-#RUN make bootclean
+RUN ./configure --prefix=/usr/local \
+      --enable-single-host \
+      --enable-multiple-threaded-vms
 RUN make
-RUN make check
 RUN make modules
+RUN make check
 RUN make install
 
 FROM debian:buster-slim
