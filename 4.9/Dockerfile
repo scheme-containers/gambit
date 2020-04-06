@@ -11,6 +11,7 @@ RUN mkdir gambit && tar -C gambit --strip-components 1 -xf gambit.tgz
 WORKDIR /build/gambit
 RUN ./configure --prefix=/usr/local --enable-single-host
 RUN make
+RUN make check
 RUN make install
 
 FROM debian:buster-slim
