@@ -14,7 +14,7 @@ RUN ./configure --prefix=/usr/local \
       --enable-single-host \
       --enable-multiple-threaded-vms
 RUN ln -s /usr/local/bin/gsc gsc-boot
-RUN make
+RUN make || (rm -rf boot/ gsc-boot && make)
 RUN make modules
 RUN make check
 RUN make install
