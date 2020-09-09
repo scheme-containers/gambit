@@ -16,6 +16,7 @@ RUN ./configure --prefix=/usr/local \
 RUN ln -s /usr/local/bin/gsc gsc-boot
 RUN make || (rm -rf boot/ gsc-boot && make)
 RUN make modules
+RUN make _gambit.js
 RUN make check
 RUN make install
 
