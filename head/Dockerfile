@@ -12,11 +12,11 @@ RUN git clone https://github.com/gambit/gambit.git
 WORKDIR /build/gambit
 RUN ./configure --prefix=/usr/local \
       --enable-single-host \
-      --enable-multiple-threaded-vms
+      --enable-targets=js \
+      --enable-default-compile-options="(compactness 9)"
 RUN ln -s /usr/local/bin/gsc gsc-boot
 RUN make || (rm -rf boot/ gsc-boot && make)
 RUN make modules
-RUN make _gambit.js
 RUN make check
 RUN make install
 
